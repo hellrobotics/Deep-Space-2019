@@ -9,9 +9,19 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.VictorSP;
+
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
+
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.vision.VisionThread;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import frc.robot.VisionTracking;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,6 +41,13 @@ public class Robot extends TimedRobot {
   VictorSP tes2Motor = new VictorSP(2);
   private final Joystick m_stick = new Joystick(0);
 
+  private static final int IMG_WIDTH = 320;
+	private static final int IMG_HEIGHT = 240;
+	
+	private VisionThread visionThread;
+  private double centerX = 0.0;
+  private final Object imgLock = new Object();
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -40,6 +57,37 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+
+    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+    camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+    
+    visionThread = new VisionThread(camera, new VisionTracking(), pipeline -> {
+        if (!pipeline.convexHullsOutput().isEmpty()) {
+
+          MatOfPoint biggestContour = pipeline.convexHullsOutput().get(0);
+				
+					for(int i = 0; i < pipeline.convexHullsOutput().size(); i++) {
+						final MatOfPoint contour = pipeline.convexHullsOutput().get(i);
+						double area = Imgproc.contourArea(contour);
+						double biggestArea = Imgproc.contourArea(biggestContour);
+						if (area > biggestArea) {
+							biggestContour = contour;
+						}
+          }
+
+          if (Imgproc.contourArea(biggestContour) > 20.0) {
+						final Rect bb = Imgproc.boundingRect(biggestContour);
+            centerX = bb.x + (bb.width/2);
+          } else {
+						centerX = -1;
+					}
+        } else {
+          centerX = -1;
+        }
+    });
+    visionThread.start();
+
   }
 
   /**
@@ -50,6 +98,7 @@ public class Robot extends TimedRobot {
    * <p>This runs after the mode specific periodic functions, but before
    * LiveWindow and SmartDashboard integrated updating.
    */
+
   @Override
   public void robotPeriodic() {
   }
@@ -83,8 +132,16 @@ public class Robot extends TimedRobot {
         break;
       case kDefaultAuto:
       default:
-        // Put default auto code here
-        break;
+        double centerX;
+        synchronized (imgLock) {
+          centerX = this.centerX;
+        }
+        if (centerX != -1) {
+          double turn = centerX - (IMG_WIDTH / 2*0.25);
+          System.out.println(turn/(IMG_WIDTH / 2*0.25) + " " + centerX);
+          testMotor.set((turn*-0.3)/(IMG_WIDTH / 2*0.25));
+          break;
+        }
     }
   }
 
