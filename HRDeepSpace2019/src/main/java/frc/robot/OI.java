@@ -7,25 +7,22 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+
 /**
  * Add your docs here.
  */
-public class RobotMap {
+public class OI {
 
-    //PWM
-    public static int TESTMOTOR = 0;
+    public Joystick stick = new Joystick(0);
 
-    //CAN
-
-    //DIO
-
-    //PCM
-    public static int EXTENDERVALVE = 0;
-    public static int GRABVALVE = 1;
-
-
-
-
-
+    private static OI m_instance;
+	public static synchronized OI getInstance() {
+		if (m_instance == null){
+			m_instance = new OI();
+		}
+		return m_instance;
+		
+	}
 
 }

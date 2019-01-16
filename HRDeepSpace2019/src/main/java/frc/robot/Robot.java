@@ -9,6 +9,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
@@ -22,6 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.VisionTracking;
+import frc.robot.commands.GrabController;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -47,6 +50,8 @@ public class Robot extends TimedRobot {
 	private VisionThread visionThread;
   private double centerX = 0.0;
   private final Object imgLock = new Object();
+
+  Command gControl = new GrabController();
 
   /**
    * This function is run when the robot is first started up and should be
@@ -126,6 +131,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    Scheduler.getInstance().run();
+
     switch (m_autoSelected) {
       case kCustomAuto:
         // Put custom auto code here
@@ -145,6 +152,11 @@ public class Robot extends TimedRobot {
     }
   }
 
+  @Override
+  public void teleopInit() {
+    gControl.start();
+  }
+
   /**
    * This function is called periodically during operator control.
    */
@@ -152,7 +164,10 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     testMotor.set((m_stick.getThrottle()*-1+1.0)/2.0);
     tes2Motor.set((m_stick.getThrottle()*-1+1.0)*-1/2.0);
-    System.out.println("ASS: " + (m_stick.getThrottle()*-1+1.0)*-1/2.0);
+    //System.out.println("ASS: " + (m_stick.getThrottle()*-1+1.0)*-1/2.0);
+
+    Scheduler.getInstance().run();
+
   }
 
   /**
