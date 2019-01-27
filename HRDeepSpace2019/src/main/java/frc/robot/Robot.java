@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Command;
@@ -25,6 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.VisionTracking;
 import frc.robot.commands.GrabController;
+import frc.robot.commands.MotorRun;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
   private final Object imgLock = new Object();
 
   Command gControl = new GrabController();
-
+  Command motorRun = new MotorRun();
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -155,6 +155,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     gControl.start();
+    motorRun.start();
   }
 
   /**
