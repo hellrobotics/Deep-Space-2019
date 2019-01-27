@@ -29,9 +29,11 @@ public class HatchGrabber extends Subsystem {
 		return m_instance;	
   }
   
-  public void SetGrab (boolean grab) {
-    pneuExtend.set(grab);
+  public void SetGrab (boolean grab) {  
     pneuGrab.set(grab);
+  }
+  public void SetExtend (boolean extend) {
+    pneuExtend.set(extend);
   }
   
 

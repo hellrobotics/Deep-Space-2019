@@ -34,12 +34,15 @@ public class GrabController extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("REEEEeeEEEeeeEEE");
     if (oi.stick.getRawButton(1) == true) {
-      System.out.println("GRAB");
       ssGrab.SetGrab(true);
     } else {
       ssGrab.SetGrab(false);
+    }
+    if (oi.stick.getRawButton(2) == true) {
+      ssGrab.SetExtend(true);
+    } else {
+      ssGrab.SetExtend(false);
     }
 
   }
