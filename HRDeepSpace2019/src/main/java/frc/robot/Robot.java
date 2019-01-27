@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
@@ -23,6 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.VisionTracking;
+import frc.robot.commands.Drive;
 import frc.robot.commands.GrabController;
 import frc.robot.commands.MotorRun;
 
@@ -40,8 +42,6 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
 
-  VictorSP testMotor = new VictorSP(1);
-  VictorSP tes2Motor = new VictorSP(2);
   private final Joystick m_stick = new Joystick(0);
 
   private static final int IMG_WIDTH = 320;
@@ -53,6 +53,7 @@ public class Robot extends TimedRobot {
 
   Command gControl = new GrabController();
   Command motorRun = new MotorRun();
+  Command arcadeRun = new Drive();
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -146,7 +147,7 @@ public class Robot extends TimedRobot {
         if (centerX != -1) {
           double turn = centerX - (IMG_WIDTH / 2*0.25);
           System.out.println(turn/(IMG_WIDTH / 2*0.25) + " " + centerX);
-          testMotor.set((turn*-0.3)/(IMG_WIDTH / 2*0.25));
+          
           break;
         }
     }
@@ -156,6 +157,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     gControl.start();
     motorRun.start();
+    arcadeRun.start();
   }
 
   /**
@@ -163,8 +165,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    testMotor.set((m_stick.getThrottle()*-1+1.0)/2.0);
-    tes2Motor.set((m_stick.getThrottle()*-1+1.0)*-1/2.0);
+    
     //System.out.println("ASS: " + (m_stick.getThrottle()*-1+1.0)*-1/2.0);
 
     Scheduler.getInstance().run();

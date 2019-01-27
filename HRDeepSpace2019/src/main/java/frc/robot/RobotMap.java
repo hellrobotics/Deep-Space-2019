@@ -14,6 +14,10 @@ public class RobotMap {
 
     //PWM
     public static int TESTMOTOR = 0;
+    public static int frontRight = 1;
+    public static int frontLeft = 2;
+    public static int backRight = 3;
+    public static int backLeft = 4;
 
     //CAN
 
