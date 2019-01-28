@@ -25,12 +25,12 @@ public class ArcadeDrive extends Subsystem {
 		}
 		return m_instance;	
   }
-  VictorSP frontRightSp = new VictorSP(RobotMap.frontRight);
-  VictorSP backRightSp = new VictorSP(RobotMap.backRight);
+  VictorSP frontRightSp = new VictorSP(RobotMap.FRONTRIGHTDT);
+  VictorSP backRightSp = new VictorSP(RobotMap.BACKRIGHTDT);
   SpeedControllerGroup rightMotors = new SpeedControllerGroup(frontRightSp, backRightSp);
 
-  VictorSP frontLeftSP = new VictorSP(RobotMap.frontLeft);  
-  VictorSP backLeftSP = new VictorSP(RobotMap.backLeft);
+  VictorSP frontLeftSP = new VictorSP(RobotMap.FRONTLEFTDT);  
+  VictorSP backLeftSP = new VictorSP(RobotMap.BACKLEFTDT);
   SpeedControllerGroup leftMotors = new SpeedControllerGroup(frontLeftSP, backLeftSP);
 
   DifferentialDrive allDrive = new DifferentialDrive(leftMotors, rightMotors);
@@ -46,7 +46,8 @@ public class ArcadeDrive extends Subsystem {
   
 
   public void Arcade (double moveValue, double rotateValue) {
-        allDrive.arcadeDrive(moveValue, rotateValue);}
+    allDrive.arcadeDrive(moveValue, rotateValue);
+  }
   
 
 

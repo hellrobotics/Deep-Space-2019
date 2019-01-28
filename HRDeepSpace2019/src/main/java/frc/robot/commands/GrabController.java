@@ -22,8 +22,8 @@ public class GrabController extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     ssGrab = HatchGrabber.getInstance();
-    	requires(ssGrab);
-    	oi = OI.getInstance();
+    requires(ssGrab);
+    oi = OI.getInstance();
   }
 
   // Called just before this Command runs the first time
@@ -43,6 +43,14 @@ public class GrabController extends Command {
       ssGrab.SetExtend(true);
     } else {
       ssGrab.SetExtend(false);
+    }
+
+    if (oi.stick.getPOV() == 90) {
+      ssGrab.MoveGrabber(1);
+    } else if (oi.stick.getPOV() == 270) {
+      ssGrab.MoveGrabber(-1);
+    } else {
+      ssGrab.MoveGrabber(0);
     }
 
   }

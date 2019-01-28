@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.subsystems.ArcadeDrive;
 
-public class Drive extends Command {
+public class DriveController extends Command {
 
-  private ArcadeDrive ssGrab;
+  private ArcadeDrive ssDrive;
 	private OI oi;
   
-  public Drive() {
-    ssGrab = ArcadeDrive.getInstance();
-    	requires(ssGrab);
+  public DriveController() {
+    ssDrive = ArcadeDrive.getInstance();
+    	requires(ssDrive);
     	oi = OI.getInstance();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -32,7 +32,7 @@ public class Drive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    ssGrab.Arcade(oi.stick.getRawAxis(0), oi.stick.getRawAxis(1));
+    ssDrive.Arcade(oi.stick.getRawAxis(0), oi.stick.getRawAxis(1));
   }
 
 

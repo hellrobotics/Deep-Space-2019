@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.VisionTracking;
-import frc.robot.commands.Drive;
+import frc.robot.commands.DriveController;
 import frc.robot.commands.GrabController;
 import frc.robot.commands.MotorRun;
 
@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
 
   Command gControl = new GrabController();
   Command motorRun = new MotorRun();
-  Command arcadeRun = new Drive();
+  Command arcadeRun = new DriveController();
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -146,8 +146,8 @@ public class Robot extends TimedRobot {
         }
         if (centerX != -1) {
           double turn = centerX - (IMG_WIDTH / 2*0.25);
-          System.out.println(turn/(IMG_WIDTH / 2*0.25) + " " + centerX);
-          
+          //System.out.println(turn/(IMG_WIDTH / 2*0.25) + " " + centerX);
+          //testMotor.set((turn*-0.3)/(IMG_WIDTH / 2*0.25));
           break;
         }
     }

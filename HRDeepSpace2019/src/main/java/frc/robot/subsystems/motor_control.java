@@ -16,7 +16,7 @@ import frc.robot.RobotMap;
  */
 public class motor_control extends Subsystem {
   
-VictorSP exampleVictorSP = new VictorSP(RobotMap.TESTMOTOR);
+VictorSP exampleVictorSP = new VictorSP(8);
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private static motor_control m_instance;

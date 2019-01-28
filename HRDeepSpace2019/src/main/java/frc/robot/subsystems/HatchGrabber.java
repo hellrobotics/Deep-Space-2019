@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
@@ -20,6 +21,7 @@ public class HatchGrabber extends Subsystem {
 
   Solenoid pneuExtend = new Solenoid(RobotMap.EXTENDERVALVE);
   Solenoid pneuGrab = new Solenoid(RobotMap.GRABVALVE);
+  Spark translateMotor = new Spark(RobotMap.HATCHMOTOR);
 
   private static HatchGrabber m_instance;
 	public static synchronized HatchGrabber getInstance() {
@@ -34,6 +36,9 @@ public class HatchGrabber extends Subsystem {
   }
   public void SetExtend (boolean extend) {
     pneuExtend.set(extend);
+  }
+  public void MoveGrabber (double power) {
+    translateMotor.set(power);
   }
   
 
