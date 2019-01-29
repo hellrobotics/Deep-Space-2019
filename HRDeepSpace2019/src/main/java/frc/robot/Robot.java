@@ -54,6 +54,8 @@ public class Robot extends TimedRobot {
   Command gControl = new GrabController();
   Command motorRun = new MotorRun();
   Command arcadeRun = new DriveController();
+
+  public static double visionError = 0;
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -86,10 +88,12 @@ public class Robot extends TimedRobot {
 						final Rect bb = Imgproc.boundingRect(biggestContour);
             centerX = bb.x + (bb.width/2);
           } else {
-						centerX = -1;
+            centerX = -1;
+            System.out.println("TOO SMALL!!!");
 					}
         } else {
           centerX = -1;
+          System.out.println("NO TARGETS!");
         }
     });
     visionThread.start();
@@ -107,6 +111,17 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    double centerX;
+    synchronized (imgLock) {
+      centerX = this.centerX;
+    }
+    if (centerX != -1) {
+      visionError = centerX - (IMG_WIDTH / 2*0.25);
+      //System.out.println(turn/(IMG_WIDTH / 2*0.25) + " " + centerX);
+      //testMotor.set((turn*-0.3)/(IMG_WIDTH / 2*0.25));
+    } else {
+      visionError = 0;
+    }
   }
 
   /**
@@ -145,11 +160,13 @@ public class Robot extends TimedRobot {
           centerX = this.centerX;
         }
         if (centerX != -1) {
-          double turn = centerX - (IMG_WIDTH / 2*0.25);
+          visionError = centerX - (IMG_WIDTH / 2*0.25);
           //System.out.println(turn/(IMG_WIDTH / 2*0.25) + " " + centerX);
           //testMotor.set((turn*-0.3)/(IMG_WIDTH / 2*0.25));
-          break;
+        } else {
+          visionError = 0;
         }
+        break;
     }
   }
 

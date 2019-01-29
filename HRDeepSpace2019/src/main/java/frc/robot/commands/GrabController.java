@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
+import frc.robot.Robot;
 import frc.robot.subsystems.HatchGrabber;
 
 public class GrabController extends Command {
@@ -16,6 +17,7 @@ public class GrabController extends Command {
   private HatchGrabber ssGrab;
 	private OI oi;
 
+  private boolean isTracking = false;
 
 
   public GrabController() {
@@ -53,7 +55,27 @@ public class GrabController extends Command {
       ssGrab.MoveGrabber(0);
     }
 
+    if (oi.stick.getRawButtonPressed(11)){
+        isTracking = !isTracking;
+    }
+
+    if (isTracking) {
+      System.out.println("AUTO TRACK ON! " + Robot.visionError);
+      if (Robot.visionError != 0) {
+        AutoMove(Robot.visionError, 5);
+      } else {
+        ssGrab.MoveGrabber(0);
+      }
+    }
+
   }
+
+  void AutoMove (double pos, double tolerance) {
+    double error = pos;
+    double pk = 1.0/tolerance;
+    ssGrab.MoveGrabber(error*pk);
+  }
+
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
