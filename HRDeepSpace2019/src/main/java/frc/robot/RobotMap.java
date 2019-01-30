@@ -22,7 +22,8 @@ public class RobotMap {
     //CAN
 
     //DIO
-
+    public static final int ARM1ENCODER1 = 8;
+    public static final int ARM1ENCODER2 = 9;
     //PCM
     public static int EXTENDERVALVE = 0;
     public static int GRABVALVE = 1;

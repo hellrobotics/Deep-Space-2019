@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -18,6 +19,7 @@ import frc.robot.RobotMap;
 public class HatchGrabber extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  Encoder stage1Encoder = new Encoder(RobotMap.ARM1ENCODER1, RobotMap.ARM1ENCODER2);
 
   Solenoid pneuExtend = new Solenoid(RobotMap.EXTENDERVALVE);
   Solenoid pneuGrab = new Solenoid(RobotMap.GRABVALVE);
@@ -40,11 +42,20 @@ public class HatchGrabber extends Subsystem {
   public void MoveGrabber (double power) {
     translateMotor.set(power);
   }
-  
+   
 
+void Loop(){
+  int stage1Pos = getStage1EncoderPos();
+  System.out.println(stage1Pos);
+}
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
+ 
+  public int getStage1EncoderPos() {
+    return stage1Encoder.get();
+    
+}
 }
