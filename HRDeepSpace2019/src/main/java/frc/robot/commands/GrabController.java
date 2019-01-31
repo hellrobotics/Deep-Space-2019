@@ -36,6 +36,10 @@ public class GrabController extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+
+    int stage1Pos = ssGrab.getStage1EncoderPos();
+    System.out.println(stage1Pos);
+
     if (oi.stick.getRawButton(1) == true) {
       ssGrab.SetGrab(true);
     } else {

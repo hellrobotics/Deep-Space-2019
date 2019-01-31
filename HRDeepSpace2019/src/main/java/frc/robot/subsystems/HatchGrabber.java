@@ -43,11 +43,6 @@ public class HatchGrabber extends Subsystem {
     translateMotor.set(power);
   }
    
-
-void Loop(){
-  int stage1Pos = getStage1EncoderPos();
-  System.out.println(stage1Pos);
-}
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
@@ -56,6 +51,5 @@ void Loop(){
  
   public int getStage1EncoderPos() {
     return stage1Encoder.get();
-    
-}
+  }
 }
