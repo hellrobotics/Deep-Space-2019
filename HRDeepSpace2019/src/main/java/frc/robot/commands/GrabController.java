@@ -52,9 +52,9 @@ public class GrabController extends Command {
     }
 
     if (oi.stick.getPOV() == 90) {
-      ssGrab.MoveGrabber(0.03);
+      ssGrab.MoveGrabber(1.0);
     } else if (oi.stick.getPOV() == 270) {
-      ssGrab.MoveGrabber(-0.03);
+      ssGrab.MoveGrabber(-1.0);
     } else {
       ssGrab.MoveGrabber(0);
     }
