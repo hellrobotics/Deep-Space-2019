@@ -24,7 +24,7 @@ public class RobotMap {
     //DIO
     public static final int ARM1ENCODER1 = 8;
     public static final int ARM1ENCODER2 = 9;
-    public static final int LEFTGRABSTOP = 0;
+    public static final int LEFTGRABSTOP = 6;
     public static final int RIGHTGRABSTOP = 7;
 
     //PCM
