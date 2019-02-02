@@ -45,8 +45,9 @@ public class Robot extends TimedRobot {
   private final Joystick m_stick = new Joystick(0);
 
   private static final int IMG_WIDTH = 320;
-	private static final int IMG_HEIGHT = 240;
-	
+  private static final int IMG_HEIGHT = 240;
+  
+	private int IMG_EXPOSURE = 30;
 	private VisionThread visionThread;
   private double centerX = 0.0;
   private final Object imgLock = new Object();
@@ -55,7 +56,7 @@ public class Robot extends TimedRobot {
   Command motorRun = new MotorRun();
   Command arcadeRun = new DriveController();
 
-  public static double visionError = 0;
+  public static double visionError = 0.0;
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -65,32 +66,58 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    SmartDashboard.putNumber("Exposure", IMG_EXPOSURE);
 
 
     UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
     camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+    //camera.setFPS(60);
+    
     
     visionThread = new VisionThread(camera, new VisionTracking(), pipeline -> {
+      
+      IMG_EXPOSURE = (int)SmartDashboard.getNumber("Exposure", 50);
+      camera.setExposureManual(IMG_EXPOSURE);
         if (!pipeline.convexHullsOutput().isEmpty()) {
-
           MatOfPoint biggestContour = pipeline.convexHullsOutput().get(0);
+          int bigInt = 0;
 				
 					for(int i = 0; i < pipeline.convexHullsOutput().size(); i++) {
 						final MatOfPoint contour = pipeline.convexHullsOutput().get(i);
 						double area = Imgproc.contourArea(contour);
 						double biggestArea = Imgproc.contourArea(biggestContour);
 						if (area > biggestArea) {
-							biggestContour = contour;
+              biggestContour = contour;
+              bigInt = i;
 						}
           }
+          if (biggestContour != null) {
+            pipeline.convexHullsOutput().remove(bigInt);
+          }
 
-          if (Imgproc.contourArea(biggestContour) > 20.0) {
-						final Rect bb = Imgproc.boundingRect(biggestContour);
-            centerX = bb.x + (bb.width/2);
-          } else {
-            centerX = -1;
-            System.out.println("TOO SMALL!!!");
-					}
+          MatOfPoint nextBiggestContour = null;
+          if (!pipeline.convexHullsOutput().isEmpty()) {
+            nextBiggestContour = pipeline.convexHullsOutput().get(0);
+            for(int i = 0; i < pipeline.convexHullsOutput().size(); i++) {
+						  final MatOfPoint contour = pipeline.convexHullsOutput().get(i);
+						  double area = Imgproc.contourArea(contour);
+						  double biggestArea = Imgproc.contourArea(biggestContour);
+						  if (area > biggestArea) {
+                nextBiggestContour = contour;
+						  }
+            }
+          }
+          if (nextBiggestContour != null) {
+            if (Imgproc.contourArea(biggestContour) > 20.0 && Imgproc.contourArea(nextBiggestContour) > 20.0) {
+              final Rect bb = Imgproc.boundingRect(biggestContour);
+              final Rect nb = Imgproc.boundingRect(nextBiggestContour);
+              //System.out.println("bb: " + bb.x + " nb: " +nb.x);
+              centerX = (bb.x + (bb.width/2.0) + nb.x + (nb.width/2.0))/2.0;
+            } else {
+              centerX = -1;
+              System.out.println("TOO SMALL!!!");
+            }
+          }
         } else {
           centerX = -1;
           System.out.println("NO TARGETS!");
@@ -111,16 +138,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    double centerX;
+    
+    double centerXp;
     synchronized (imgLock) {
-      centerX = this.centerX;
+      centerXp = this.centerX;
     }
-    if (centerX != -1) {
-      visionError = centerX - (IMG_WIDTH / 2*0.25);
-      //System.out.println(turn/(IMG_WIDTH / 2*0.25) + " " + centerX);
+    if (centerXp != -1) {
+      visionError = centerXp - (IMG_WIDTH / 2.0*0.25);
+      //System.out.println(centerXp + " " + visionError);
       //testMotor.set((turn*-0.3)/(IMG_WIDTH / 2*0.25));
     } else {
-      visionError = 0;
+      //System.out.println("RÆVA MI E KLAR!!!!!!");
+      visionError = 0.0;
     }
   }
 

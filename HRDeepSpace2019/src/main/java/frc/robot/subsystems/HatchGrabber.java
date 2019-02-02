@@ -43,7 +43,7 @@ public class HatchGrabber extends Subsystem {
     pneuExtend.set(extend);
   }
   public void MoveGrabber (double power) {
-    System.out.println(rightEndStop.get() + " " + leftEndStop.get());
+    //System.out.println(rightEndStop.get() + " " + leftEndStop.get());
     if (!rightEndStop.get() && power > 0) {
       translateMotor.set(0);
     } else if (!leftEndStop.get() && power < 0) {

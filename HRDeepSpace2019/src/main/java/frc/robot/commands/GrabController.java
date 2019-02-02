@@ -19,6 +19,9 @@ public class GrabController extends Command {
 
   private boolean isTracking = false;
 
+  double integral = 0;
+  double previous_error = 0;
+
 
   public GrabController() {
     // Use requires() here to declare subsystem dependencies
@@ -38,7 +41,7 @@ public class GrabController extends Command {
   protected void execute() {
 
     int stage1Pos = ssGrab.getStage1EncoderPos();
-    System.out.println(stage1Pos);
+    //System.out.println(stage1Pos);
 
     if (oi.stick.getRawButton(1) == true) {
       ssGrab.SetGrab(true);
@@ -64,11 +67,11 @@ public class GrabController extends Command {
     }
 
     if (isTracking) {
-      System.out.println("AUTO TRACK ON! " + Robot.visionError);
       if (Robot.visionError != 0) {
-        AutoMove(Robot.visionError, 5);
+        AutoMove(Robot.visionError, 10.0);
       } else {
         ssGrab.MoveGrabber(0);
+        //System.out.println("PUL MÆ!!!");
       }
     }
 
@@ -77,7 +80,11 @@ public class GrabController extends Command {
   void AutoMove (double pos, double tolerance) {
     double error = pos;
     double pk = 1.0/tolerance;
-    ssGrab.MoveGrabber(error*pk);
+    integral += (error*.02);
+    double derivative = (error - this.previous_error) / .02;
+    double moveValue = error*pk+0*integral+0*derivative;
+    System.out.println("AUTO TRACK ON! " + moveValue);
+    ssGrab.MoveGrabber(moveValue);
   }
 
 
