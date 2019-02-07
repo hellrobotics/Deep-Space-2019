@@ -27,7 +27,7 @@ import frc.robot.VisionTracking;
 import frc.robot.commands.DriveController;
 import frc.robot.commands.GrabController;
 import frc.robot.commands.IntakeController;
-import frc.robot.commands.MotorRun;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -54,7 +54,6 @@ public class Robot extends TimedRobot {
   private final Object imgLock = new Object();
 
   Command gControl = new GrabController();
-  Command motorRun = new MotorRun();
   Command arcadeRun = new DriveController();
   Command intakeControl = new IntakeController();
 
@@ -205,7 +204,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     gControl.start();
     intakeControl.start();
-    motorRun.start();
+   
     arcadeRun.start();
   }
 

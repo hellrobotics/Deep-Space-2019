@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -33,11 +34,19 @@ public class ArcadeDrive extends Subsystem {
   VictorSP backLeftSP = new VictorSP(RobotMap.BACKLEFTDT);
   SpeedControllerGroup leftMotors = new SpeedControllerGroup(frontLeftSP, backLeftSP);
 
+  Solenoid pneuBack = new Solenoid(RobotMap.BACKPISTON);
+  Solenoid pneuFront = new Solenoid(RobotMap.FRONTPISTON);
+
   DifferentialDrive allDrive = new DifferentialDrive(leftMotors, rightMotors);
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   
-
+  public void FrontPiston (boolean extend) {  
+    pneuFront.set(extend);
+  }
+  public void BackPiston (boolean extend) {
+    pneuBack.set(extend);
+  }
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.

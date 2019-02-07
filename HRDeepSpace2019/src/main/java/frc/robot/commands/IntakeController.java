@@ -48,9 +48,14 @@ public class IntakeController extends Command {
     } else {
       ssIntake.RunIntake(0);
     }
-
+    if (oi.stick.getRawButton(6)) {
+      ssIntake.RaiseIntake(0.8);
+    } else if (oi.stick.getRawButton(4)) {
+      ssIntake.RaiseIntake(-0.15);
+    } else {
+      ssIntake.RaiseIntake(0);
+    }
   }
-
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {

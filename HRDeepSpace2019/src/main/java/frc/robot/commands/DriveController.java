@@ -15,7 +15,7 @@ public class DriveController extends Command {
 
   private ArcadeDrive ssDrive;
 	private OI oi;
-  
+  private ArcadeDrive ssGrab;
   public DriveController() {
     ssDrive = ArcadeDrive.getInstance();
     	requires(ssDrive);
@@ -33,6 +33,16 @@ public class DriveController extends Command {
   @Override
   protected void execute() {
     ssDrive.Arcade(oi.stick.getRawAxis(0), oi.stick.getRawAxis(1));
+    if (oi.stick.getRawButton(8) == true) {
+      ssGrab.FrontPiston(true);
+    } else {
+      ssGrab.FrontPiston(false);
+    }
+    if (oi.stick.getRawButton(7) == true) {
+      ssGrab.BackPiston(true);
+    } else {
+      ssGrab.BackPiston(false);
+    }
   }
 
 
