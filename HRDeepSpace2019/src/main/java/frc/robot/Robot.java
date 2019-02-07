@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.VisionTracking;
 import frc.robot.commands.DriveController;
 import frc.robot.commands.GrabController;
+import frc.robot.commands.IntakeController;
 import frc.robot.commands.MotorRun;
 
 /**
@@ -55,6 +56,7 @@ public class Robot extends TimedRobot {
   Command gControl = new GrabController();
   Command motorRun = new MotorRun();
   Command arcadeRun = new DriveController();
+  Command intakeControl = new IntakeController();
 
   public static double visionError = 0.0;
   /**
@@ -202,6 +204,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     gControl.start();
+    intakeControl.start();
     motorRun.start();
     arcadeRun.start();
   }

@@ -18,6 +18,9 @@ public class RobotMap {
     public static int FRONTLEFTDT = 2;
     public static int BACKRIGHTDT = 3;
     public static int BACKLEFTDT = 4;
+    public static int INTAKEMOTOR = 5;
+    public static int INTAKERAISER = 6;
+    public static int BALLTRANSPORT = 7;
 
     //CAN
 
