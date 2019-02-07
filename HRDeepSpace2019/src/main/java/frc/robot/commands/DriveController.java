@@ -31,7 +31,7 @@ public class DriveController extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    ssDrive.Arcade(oi.stick.getRawAxis(0), oi.stick.getRawAxis(1));
+    ssDrive.Arcade(oi.stick.getRawAxis(0)*-1, oi.stick.getRawAxis(1)*-1);
     if (oi.stick.getRawButton(8) == true) {
       ssDrive.FrontPiston(true);
     } else {

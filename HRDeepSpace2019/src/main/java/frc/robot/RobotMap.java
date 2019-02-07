@@ -14,10 +14,10 @@ public class RobotMap {
 
     //PWM
     public static int HATCHMOTOR = 0;
-    public static int FRONTRIGHTDT = 1;
-    public static int FRONTLEFTDT = 4;
+    public static int FRONTRIGHTDT = 4;
+    public static int FRONTLEFTDT = 2;
     public static int BACKRIGHTDT = 3;
-    public static int BACKLEFTDT = 2;
+    public static int BACKLEFTDT = 1;
     public static int INTAKEMOTOR = 5;
     public static int INTAKERAISER = 6;
     public static int BALLTRANSPORT = 7;
