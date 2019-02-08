@@ -12,7 +12,8 @@ import frc.robot.OI;
 import frc.robot.subsystems.ArcadeDrive;
 
 public class DriveController extends Command {
-
+double speedlimit =1;
+double driveDir = 1;
   private ArcadeDrive ssDrive;
 	private OI oi;
   public DriveController() {
@@ -31,7 +32,19 @@ public class DriveController extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    ssDrive.Arcade(oi.stick.getRawAxis(0)*-1, oi.stick.getRawAxis(1)*-1);
+    ssDrive.Arcade(oi.stick.getRawAxis(0)*-1*speedlimit*driveDir, oi.stick.getRawAxis(1)*-1*speedlimit);
+  if(oi.stick.getRawButton(9)){
+    speedlimit = 0.3;
+
+  } else{
+speedlimit = 1;
+  }
+if(oi.stick.getRawAxis(3)<0){
+driveDir = 1;
+}
+else{
+driveDir = -1;
+}
     if (oi.stick.getRawButton(8) == true) {
       ssDrive.FrontPiston(true);
       System.out.println("FRONT PISTON OUT");

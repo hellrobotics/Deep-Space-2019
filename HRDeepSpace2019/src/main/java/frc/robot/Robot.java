@@ -202,6 +202,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    SmartDashboard.putNumber("Exposure", IMG_EXPOSURE);
     gControl.start();
     intakeControl.start();
    
