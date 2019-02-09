@@ -50,14 +50,12 @@ driveDir = -1;
       System.out.println("FRONT PISTON OUT");
     } else {
       ssDrive.FrontPiston(false);
-      System.out.println("FRONT PISTON IN");
     }
     if (oi.stick.getRawButton(7) == true) {
       ssDrive.BackPiston(true);
       System.out.println("BACK PISTON OUT");
     } else {
       ssDrive.BackPiston(false);
-      System.out.println("BACK  PISTON IN");
     }
   }
 
