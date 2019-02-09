@@ -33,23 +33,23 @@ public class IntakeController extends Command {
   @Override
   protected void execute() {
 
-    if (oi.stick.getPOV() == 0) {
-      ssIntake.RunTransport(0.5);
+    if (oi.stick.getPOV() == 0 || oi.stick.getRawButton(5)) {
+      ssIntake.RunTransport(1);
     } else if (oi.stick.getPOV() == 180) {
-      ssIntake.RunTransport(-0.5);
+      ssIntake.RunTransport(-1);
     } else {
       ssIntake.RunTransport(0);
     }
 
-    if (oi.stick.getRawButton(3)) {
+    if (oi.stick.getRawButton(5)) {
       ssIntake.RunIntake(1);
-    } else if (oi.stick.getRawButton(5)) {
+    } else if (oi.stick.getRawButton(3)) {
       ssIntake.RunIntake(-1);
     } else {
       ssIntake.RunIntake(0);
     }
     if (oi.stick.getRawButton(6)) {
-      ssIntake.RaiseIntake(0.8);
+      ssIntake.RaiseIntake(0.5);
     } else if (oi.stick.getRawButton(4)) {
       ssIntake.RaiseIntake(-0.15);
     } else {
