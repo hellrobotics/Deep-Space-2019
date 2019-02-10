@@ -52,6 +52,7 @@ public class Robot extends TimedRobot {
 	private VisionThread visionThread;
   private double centerX = 0.0;
   private final Object imgLock = new Object();
+  private  UsbCamera camera;
 
   Command gControl = new GrabController();
   Command arcadeRun = new DriveController();
@@ -70,15 +71,12 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Exposure", IMG_EXPOSURE);
 
 
-    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+    camera = CameraServer.getInstance().startAutomaticCapture();
     camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
-    //camera.setFPS(60);
+    camera.setFPS(60);
     
     
     visionThread = new VisionThread(camera, new VisionTracking(), pipeline -> {
-      
-      IMG_EXPOSURE = (int)SmartDashboard.getNumber("Exposure", 50);
-      camera.setExposureManual(IMG_EXPOSURE);
         if (!pipeline.convexHullsOutput().isEmpty()) {
           MatOfPoint biggestContour = pipeline.convexHullsOutput().get(0);
           int bigInt = 0;
@@ -140,6 +138,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     
+    IMG_EXPOSURE = (int)SmartDashboard.getNumber("Exposure", 50);
+    camera.setExposureManual(IMG_EXPOSURE);
     double centerXp;
     synchronized (imgLock) {
       centerXp = this.centerX;
