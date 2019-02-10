@@ -34,9 +34,9 @@ public class IntakeController extends Command {
   protected void execute() {
 
     if (oi.stick.getPOV() == 0) {
-      ssIntake.RunTransport(0.5);
+      ssIntake.RunTransport(1);
     } else if (oi.stick.getPOV() == 180) {
-      ssIntake.RunTransport(-0.5);
+      ssIntake.RunTransport(-1);
     } else {
       ssIntake.RunTransport(0);
     }
