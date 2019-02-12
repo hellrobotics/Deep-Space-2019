@@ -119,7 +119,6 @@ public class Robot extends TimedRobot {
           }
         } else {
           centerX = -1;
-          System.out.println("NO TARGETS!");
         }
     });
     visionThread.start();
