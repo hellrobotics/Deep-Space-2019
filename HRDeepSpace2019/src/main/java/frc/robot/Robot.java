@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTable;
 
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
@@ -58,6 +61,8 @@ public class Robot extends TimedRobot {
   Command arcadeRun = new DriveController();
   Command intakeControl = new IntakeController();
 
+  private static NetworkTableEntry centerXEntry;
+
   public static double visionError = 0.0;
   /**
    * This function is run when the robot is first started up and should be
@@ -70,12 +75,16 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
     SmartDashboard.putNumber("Exposure", IMG_EXPOSURE);
 
-
+    
     camera = CameraServer.getInstance().startAutomaticCapture();
     camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
     camera.setFPS(60);
+
+    NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
+    NetworkTable table = ntinst.getTable("visionTable");
+    centerXEntry = table.getEntry("centerX");
     
-    
+    /*
     visionThread = new VisionThread(camera, new VisionTracking(), pipeline -> {
         if (!pipeline.convexHullsOutput().isEmpty()) {
           MatOfPoint biggestContour = pipeline.convexHullsOutput().get(0);
@@ -122,7 +131,7 @@ public class Robot extends TimedRobot {
         }
     });
     visionThread.start();
-
+    */
   }
 
   /**
@@ -139,6 +148,8 @@ public class Robot extends TimedRobot {
     
     IMG_EXPOSURE = (int)SmartDashboard.getNumber("Exposure", 50);
     camera.setExposureManual(IMG_EXPOSURE);
+    centerX = centerXEntry.getDouble(-1);
+    System.out.println("Center = " + centerX);
     double centerXp;
     synchronized (imgLock) {
       centerXp = this.centerX;
