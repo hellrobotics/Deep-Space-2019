@@ -68,7 +68,7 @@ public class GrabController extends Command {
 
     if (isTracking) {
       if (Robot.visionError != 0) {
-        AutoMove(Robot.visionError, 10.0);
+        AutoMove(Robot.visionError, 20.0);
       } else {
         ssGrab.MoveGrabber(0);
         //System.out.println("PUL MÆ!!!");
@@ -79,7 +79,7 @@ public class GrabController extends Command {
 
   void AutoMove (double pos, double tolerance) {
     double error = pos;
-    double pk = 1.0/tolerance;
+    double pk = 0.5/tolerance;
     integral += (error*.02);
     double derivative = (error - this.previous_error) / .02;
     double moveValue = error*pk+0*integral+0*derivative;

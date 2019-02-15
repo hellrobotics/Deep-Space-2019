@@ -49,13 +49,13 @@ public class Robot extends TimedRobot {
   private final Joystick m_stick = new Joystick(0);
 
   private static final int IMG_WIDTH = 320;
-  private static final int IMG_HEIGHT = 240;
+  private static final int IMG_HEIGHT = 200;
   
 	private int IMG_EXPOSURE = 30;
 	private VisionThread visionThread;
   private double centerX = 0.0;
   private final Object imgLock = new Object();
-  private  UsbCamera camera;
+  //private  UsbCamera camera;
 
   Command gControl = new GrabController();
   Command arcadeRun = new DriveController();
@@ -76,9 +76,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Exposure", IMG_EXPOSURE);
 
     
-    camera = CameraServer.getInstance().startAutomaticCapture();
-    camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
-    camera.setFPS(60);
+    //camera = CameraServer.getInstance().startAutomaticCapture();
+    //camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+    //camera.setFPS(60);
 
     NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
     NetworkTable table = ntinst.getTable("visionTable");
@@ -147,15 +147,12 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     
     IMG_EXPOSURE = (int)SmartDashboard.getNumber("Exposure", 50);
-    camera.setExposureManual(IMG_EXPOSURE);
+    //camera.setExposureManual(IMG_EXPOSURE);
     centerX = centerXEntry.getDouble(-1);
     System.out.println("Center = " + centerX);
-    double centerXp;
-    synchronized (imgLock) {
-      centerXp = this.centerX;
-    }
-    if (centerXp != -1) {
-      visionError = centerXp - (IMG_WIDTH / 2.0*0.25);
+    
+    if (centerX != -1) {
+      visionError = centerX - (IMG_WIDTH / 2.0);
       //System.out.println(centerXp + " " + visionError);
       //testMotor.set((turn*-0.3)/(IMG_WIDTH / 2*0.25));
     } else {
@@ -195,17 +192,6 @@ public class Robot extends TimedRobot {
         break;
       case kDefaultAuto:
       default:
-        double centerX;
-        synchronized (imgLock) {
-          centerX = this.centerX;
-        }
-        if (centerX != -1) {
-          visionError = centerX - (IMG_WIDTH / 2*0.25);
-          //System.out.println(turn/(IMG_WIDTH / 2*0.25) + " " + centerX);
-          //testMotor.set((turn*-0.3)/(IMG_WIDTH / 2*0.25));
-        } else {
-          visionError = 0;
-        }
         break;
     }
   }

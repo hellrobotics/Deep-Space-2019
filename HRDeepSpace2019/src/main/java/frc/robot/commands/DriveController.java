@@ -34,7 +34,7 @@ double driveDir = 1;
   protected void execute() {
     ssDrive.Arcade(oi.stick.getRawAxis(0)*-1*speedlimit, oi.stick.getRawAxis(1)*-1*speedlimit*driveDir);
   if(oi.stick.getRawButton(9)){
-    speedlimit = 0.3;
+    speedlimit = 0.5;
 
   } else{
 speedlimit = 1;
