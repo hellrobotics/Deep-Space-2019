@@ -33,6 +33,8 @@ public class IntakeController extends Command {
   @Override
   protected void execute() {
 
+    if (oi.stick != null){
+
     if (oi.stick.getPOV() == 0 || oi.stick.getRawButton(5)) {
       ssIntake.RunTransport(1);
     } else if (oi.stick.getPOV() == 180) {
@@ -49,7 +51,7 @@ public class IntakeController extends Command {
       ssIntake.RunIntake(0);
     }
     if (oi.stick.getRawButton(6)) {
-      ssIntake.RaiseIntake(0.5);
+      ssIntake.RaiseIntake(0.45);
     } else if (oi.stick.getRawButton(4)) {
       ssIntake.RaiseIntake(-0.15);
     } else {
@@ -58,6 +60,7 @@ public class IntakeController extends Command {
     if (oi.stick.getRawButton(10)) {
       ssIntake.RaiseIntake(-0.35);
     }
+  }
   }
   // Make this return true when this Command no longer needs to run execute()
   @Override

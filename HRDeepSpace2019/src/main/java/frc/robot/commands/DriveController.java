@@ -45,17 +45,18 @@ driveDir = 1;
 else{
 driveDir = -1;
 }
-    if (oi.stick.getRawButton(8) == true) {
+    if (oi.stick.getRawButton(7) == true) {
+    ssDrive.BackPiston(true);
+    System.out.println("BACK PISTON OUT");
+    ssDrive.FrontPiston(false);
+  
+    } else if (oi.stick.getRawButton(8) == true) {
       ssDrive.FrontPiston(true);
       System.out.println("FRONT PISTON OUT");
-    } else {
-      ssDrive.FrontPiston(false);
-    }
-    if (oi.stick.getRawButton(7) == true) {
-      ssDrive.BackPiston(true);
-      System.out.println("BACK PISTON OUT");
+      ssDrive.BackPiston(false);
     } else {
       ssDrive.BackPiston(false);
+      ssDrive.FrontPiston(false);
     }
   }
 

@@ -27,12 +27,17 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.vision.VisionPipeline;
 import edu.wpi.first.vision.VisionThread;
 
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
 import edu.wpi.first.cameraserver.CameraServer;
 //import edu.wpi.first.wpilibj.vision.VisionThread;
 
@@ -82,6 +87,9 @@ public final class Main {
   public static int team;
   public static boolean server;
   public static List<CameraConfig> cameraConfigs = new ArrayList<>();
+
+  
+
 
   private Main() {
   }
@@ -238,53 +246,92 @@ public final class Main {
 
     // start image processing on camera 0 if present
     if (cameras.size() >= 1) {
-      VisionThread visionThread = new VisionThread(cameras.get(0),
-              new VisionTracking(), pipeline -> {
-                if (!pipeline.convexHullsOutput().isEmpty()) {
-                  MatOfPoint biggestContour = pipeline.convexHullsOutput().get(0);
-                  int bigInt = 0;
-                
-                  for(int i = 0; i < pipeline.convexHullsOutput().size(); i++) {
-                    final MatOfPoint contour = pipeline.convexHullsOutput().get(i);
-                    double area = Imgproc.contourArea(contour);
-                    double biggestArea = Imgproc.contourArea(biggestContour);
-                    if (area > biggestArea) {
-                      biggestContour = contour;
-                      bigInt = i;
-                    }
-                  }
-                  if (biggestContour != null) {
-                    pipeline.convexHullsOutput().remove(bigInt);
-                  }
+      VisionThread visionThread = new VisionThread(cameras.get(0),new VisionTracking(), pipeline -> {
+
         
-                  MatOfPoint nextBiggestContour = null;
-                  if (!pipeline.convexHullsOutput().isEmpty()) {
-                    nextBiggestContour = pipeline.convexHullsOutput().get(0);
-                    for(int i = 0; i < pipeline.convexHullsOutput().size(); i++) {
-                      final MatOfPoint contour = pipeline.convexHullsOutput().get(i);
-                      double area = Imgproc.contourArea(contour);
-                      double biggestArea = Imgproc.contourArea(biggestContour);
-                      if (area > biggestArea) {
-                        nextBiggestContour = contour;
-                      }
-                    }
-                  }
-                  if (nextBiggestContour != null) {
-                    if (Imgproc.contourArea(biggestContour) > 20.0 && Imgproc.contourArea(nextBiggestContour) > 20.0) {
-                      final Rect bb = Imgproc.boundingRect(biggestContour);
-                      final Rect nb = Imgproc.boundingRect(nextBiggestContour);
-                      //System.out.println("bb: " + bb.x + " nb: " +nb.x);
-                      centerX = (bb.x + (bb.width/2.0) + nb.x + (nb.width/2.0))/2.0;
-                    } else {
-                      centerX = -1;
-                      //System.out.println("TOO SMALL!!!");
-                    }
-                  }
-                } else {
-                  centerX = -1;
+        
+        System.out.println("Here 1");
+
+        /*CvSink cvSink = new CvSink("tmp");
+        cvSink.setSource(cameras.get(0));
+        Mat mat = new Mat();                
+        CvSource outputStream = CameraServer.getInstance().putVideo("TargetVision", 320, 200);
+        System.out.println("Here 2");*/
+
+        Rect bb = new Rect();
+        Rect nb = new Rect();
+
+          if (!pipeline.convexHullsOutput().isEmpty()) {
+            MatOfPoint biggestContour = pipeline.convexHullsOutput().get(0);
+            int bigInt = 0;
+        
+            for(int i = 0; i < pipeline.convexHullsOutput().size(); i++) {
+              final MatOfPoint contour = pipeline.convexHullsOutput().get(i);
+              double area = Imgproc.contourArea(contour);
+              double biggestArea = Imgproc.contourArea(biggestContour);
+              if (area > biggestArea) {
+                biggestContour = contour;
+                bigInt = i;
+              }
+            }
+            if (biggestContour != null) {
+              pipeline.convexHullsOutput().remove(bigInt);
+            }
+  
+            MatOfPoint nextBiggestContour = null;
+            if (!pipeline.convexHullsOutput().isEmpty()) {
+              nextBiggestContour = pipeline.convexHullsOutput().get(0);
+              for(int i = 0; i < pipeline.convexHullsOutput().size(); i++) {
+                final MatOfPoint contour = pipeline.convexHullsOutput().get(i);
+                double area = Imgproc.contourArea(contour);
+                double biggestArea = Imgproc.contourArea(biggestContour);
+                if (area > biggestArea) {
+                  nextBiggestContour = contour;
                 }
-                System.out.println("Center = " + centerX);
-                centerXEntry.setDouble(centerX);
+              }
+            }
+            if (nextBiggestContour != null) {
+              if (Imgproc.contourArea(biggestContour) > 20.0 && Imgproc.contourArea(nextBiggestContour) > 20.0) {
+                final Rect bbx = Imgproc.boundingRect(biggestContour);
+                final Rect nbx = Imgproc.boundingRect(nextBiggestContour);
+                //System.out.println("bb: " + bb.x + " nb: " +nb.x);
+                centerX = (bbx.x + (bbx.width/2.0) + nbx.x + (nbx.width/2.0))/2.0;
+              } else {
+                centerX = -1;
+                System.out.println("TOO SMALL!!!");
+              }
+            }
+          } else {
+            System.out.println("no targets");
+            centerX = -1;
+          }
+          System.out.println("Center = " + centerX);
+          centerXEntry.setDouble(centerX);
+          /*
+        while (!Thread.interrupted()) {
+
+          System.out.println("Here 3");
+          // Tell the CvSink to grab a frame from the camera and put it
+          // in the source mat.  If there is an error notify the output.
+          if (cvSink.grabFrame(mat) == 0) {
+            System.out.println("Here 00");
+            // Send the output the error.
+            outputStream.notifyError(cvSink.getError());
+            // skip the rest of the current iteration
+            //continue;
+          }
+          System.out.println("Here 5");
+          Imgproc.rectangle(mat, new Point(0, 0), new Point(320, 10),new Scalar(0, 255, 0), 1);
+          
+          Imgproc.rectangle(mat, new Point(centerX, 0), new Point(centerX, 10),new Scalar(0, 0, 255), 5);
+
+          Imgproc.rectangle(mat, new Point(bb.x ,bb.y), new Point(bb.x + bb.width, bb.y + bb.height),new Scalar(0, 0, 255), 2);
+          Imgproc.rectangle(mat, new Point(nb.x ,nb.y), new Point(nb.x + nb.width, nb.y + nb.height),new Scalar(0, 0, 255), 2);  
+          outputStream.putFrame(mat);
+          mat.release();
+          System.out.println("Here 6");
+        }*/
+        System.out.println("Here 7");
       });
       /* something like this for GRIP:
       VisionThread visionThread = new VisionThread(cameras.get(0),

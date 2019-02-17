@@ -29,6 +29,8 @@ public class RobotMap {
     public static final int ARM1ENCODER2 = 9;
     public static final int LEFTGRABSTOP = 6;
     public static final int RIGHTGRABSTOP = 7;
+    public static final int BOTTOMGRABSTOP = 5;
+    public static final int TOPGRABSTOP = 4;
 
     //PCM
     public static int EXTENDERVALVE = 0;

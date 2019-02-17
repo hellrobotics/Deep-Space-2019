@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
-
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -21,6 +21,8 @@ public class BallIntake extends Subsystem {
   public VictorSP intakeMotor = new VictorSP(RobotMap.INTAKEMOTOR);
   public VictorSP intakeRaiseMotor = new VictorSP(RobotMap.INTAKERAISER);
   public Spark transportMotor = new Spark(RobotMap.BALLTRANSPORT);
+  DigitalInput topEndStop = new DigitalInput(RobotMap.TOPGRABSTOP);
+  DigitalInput BottomEndStop = new DigitalInput(RobotMap.BOTTOMGRABSTOP);
 
   private static BallIntake m_instance;
 	public static synchronized BallIntake getInstance() {
@@ -40,7 +42,13 @@ public class BallIntake extends Subsystem {
   }
 
   public void RaiseIntake (double speed) {
-    intakeRaiseMotor.set(speed);
+    if (!topEndStop.get() && speed > 0) {
+      intakeRaiseMotor.set(0);
+    } else if (!BottomEndStop.get() && speed < 0) {
+      intakeRaiseMotor.set(0);
+    } else {
+      intakeRaiseMotor.set(speed);
+    }
   }
 
   public void RunTransport (double speed) {
