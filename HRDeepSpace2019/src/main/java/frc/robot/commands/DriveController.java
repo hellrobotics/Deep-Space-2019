@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.subsystems.ArcadeDrive;
 
@@ -41,9 +42,11 @@ speedlimit = 1;
   }
 if(oi.stick.getRawAxis(3)<0){
 driveDir = 1;
+SmartDashboard.putString("driveDir", "Forwards");
 }
 else{
 driveDir = -1;
+SmartDashboard.putString("driveDir", "Backwards");
 }
     if (oi.stick.getRawButton(7) == true) {
     ssDrive.BackPiston(true);

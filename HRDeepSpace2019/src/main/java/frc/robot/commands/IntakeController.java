@@ -51,7 +51,7 @@ public class IntakeController extends Command {
       ssIntake.RunIntake(0);
     }
     if (oi.stick.getRawButton(6)) {
-      ssIntake.RaiseIntake(0.45);
+      ssIntake.RaiseIntake(0.6);
     } else if (oi.stick.getRawButton(4)) {
       ssIntake.RaiseIntake(-0.15);
     } else {

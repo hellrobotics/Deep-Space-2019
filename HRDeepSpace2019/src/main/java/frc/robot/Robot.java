@@ -75,11 +75,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
     SmartDashboard.putNumber("Exposure", IMG_EXPOSURE);
 
-    
-    //camera = CameraServer.getInstance().startAutomaticCapture();
-    //camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
-    //camera.setFPS(60);
-
     NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
     NetworkTable table = ntinst.getTable("visionTable");
     centerXEntry = table.getEntry("centerX");
@@ -145,18 +140,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    
-    IMG_EXPOSURE = (int)SmartDashboard.getNumber("Exposure", 50);
-    //camera.setExposureManual(IMG_EXPOSURE);
+ 
     centerX = centerXEntry.getDouble(-1);
     System.out.println("Center = " + centerX);
-    
+    SmartDashboard.putNumber("VisionCenter", centerX);
+
     if (centerX != -1) {
       visionError = centerX - (IMG_WIDTH / 2.0);
-      //System.out.println(centerXp + " " + visionError);
-      //testMotor.set((turn*-0.3)/(IMG_WIDTH / 2*0.25));
     } else {
-      //System.out.println("RÆVA MI E KLAR!!!!!!");
       visionError = 0.0;
     }
   }

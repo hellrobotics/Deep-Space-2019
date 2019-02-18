@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
 /**
@@ -44,6 +45,8 @@ public class HatchGrabber extends Subsystem {
   }
   public void MoveGrabber (double power) {
     //System.out.println(rightEndStop.get() + " " + leftEndStop.get());
+    SmartDashboard.putBoolean("rightEndstop", rightEndStop.get());
+    SmartDashboard.putBoolean("leftEndstop", leftEndStop.get());
     if (!rightEndStop.get() && power > 0) {
       translateMotor.set(0);
     } else if (!leftEndStop.get() && power < 0) {
@@ -52,6 +55,25 @@ public class HatchGrabber extends Subsystem {
       translateMotor.set(power);
     }
   }
+
+  public void AutoMoveGrabber (double pos, double tolerance, boolean encoded) {
+    double error = 0;
+    if (encoded) {
+      error = (pos - getEncoderPos())*-1;
+    } else {
+      error = pos;
+    }
+    double pk = 0.5/tolerance;
+    double moveValue = error*pk;
+    System.out.println("AUTO TRACK ON! " + moveValue);
+    MoveGrabber(moveValue);
+  }
+
+  public void AutoMoveGrabber (double pos, double tolerance) {
+    AutoMoveGrabber(pos, tolerance, false);
+  }
+
+
    
   @Override
   public void initDefaultCommand() {
@@ -59,7 +81,19 @@ public class HatchGrabber extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
  
-  public int getStage1EncoderPos() {
+  public int getEncoderPos() {
     return stage1Encoder.get();
+  }
+
+  public boolean getRightEndstop() {
+    return rightEndStop.get();
+  }
+
+  public void Calibrate() {
+    MoveGrabber(1);
+    if (!rightEndStop.get()) {
+      stage1Encoder.reset();
+      MoveGrabber(0);
+    }
   }
 }

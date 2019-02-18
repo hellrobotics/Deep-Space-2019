@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.HatchGrabber;
@@ -18,9 +19,11 @@ public class GrabController extends Command {
 	private OI oi;
 
   private boolean isTracking = false;
+  private boolean isCalibrated = false;
 
   double integral = 0;
   double previous_error = 0;
+  int centerPos = 392;
 
 
   public GrabController() {
@@ -40,8 +43,18 @@ public class GrabController extends Command {
   @Override
   protected void execute() {
 
-    int stage1Pos = ssGrab.getStage1EncoderPos();
+    int pos = ssGrab.getEncoderPos();
+    SmartDashboard.putNumber("grabPos", pos*-1);
+    SmartDashboard.putBoolean("tracking", isTracking); 
     //System.out.println(stage1Pos);
+
+    if (isCalibrated == false) {
+      ssGrab.Calibrate();
+      System.out.println("CALIBRATING");
+      if (!ssGrab.getRightEndstop()) {
+        isCalibrated = true;
+      }
+    } else {
 
     if (oi.stick.getRawButton(1) == true) {
       ssGrab.SetGrab(true);
@@ -68,24 +81,22 @@ public class GrabController extends Command {
 
     if (isTracking) {
       if (Robot.visionError != 0) {
-        AutoMove(Robot.visionError, 20.0);
+        ssGrab.AutoMoveGrabber(Robot.visionError, 20.0);
       } else {
         ssGrab.MoveGrabber(0);
         //System.out.println("PUL MÆ!!!");
       }
     }
 
+    if (oi.stick.getRawButton(12)) {
+      ssGrab.AutoMoveGrabber(centerPos, 50, true);
+      //System.out.println("ENCODER: " + ssGrab.getEncoderPos());
+    }
   }
 
-  void AutoMove (double pos, double tolerance) {
-    double error = pos;
-    double pk = 0.5/tolerance;
-    integral += (error*.02);
-    double derivative = (error - this.previous_error) / .02;
-    double moveValue = error*pk+0*integral+0*derivative;
-    System.out.println("AUTO TRACK ON! " + moveValue);
-    ssGrab.MoveGrabber(moveValue);
   }
+
+  
 
 
   // Make this return true when this Command no longer needs to run execute()

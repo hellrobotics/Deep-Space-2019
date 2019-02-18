@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
 /**
@@ -42,6 +43,8 @@ public class BallIntake extends Subsystem {
   }
 
   public void RaiseIntake (double speed) {
+    SmartDashboard.putBoolean("topEndstop", topEndStop.get());
+    SmartDashboard.putBoolean("bottomEndstop", BottomEndStop.get());
     if (!topEndStop.get() && speed > 0) {
       intakeRaiseMotor.set(0);
     } else if (!BottomEndStop.get() && speed < 0) {

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
 /**
@@ -41,10 +42,12 @@ public class ArcadeDrive extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   
-  public void FrontPiston (boolean extend) {  
+  public void FrontPiston (boolean extend) {
+    SmartDashboard.putBoolean("frontPiston", extend); 
     pneuFront.set(extend);
   }
   public void BackPiston (boolean extend) {
+    SmartDashboard.putBoolean("backPiston", extend); 
     pneuBack.set(extend);
   }
   @Override
