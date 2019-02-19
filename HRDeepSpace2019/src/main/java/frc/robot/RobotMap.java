@@ -33,8 +33,8 @@ public class RobotMap {
     public static final int TOPGRABSTOP = 4;
 
     //PCM
-    public static int EXTENDERVALVE = 0;
-    public static int GRABVALVE = 1;
+    public static int EXTENDERVALVE = 7;
+    public static int GRABVALVE = 6;
     public static int BACKPISTON = 2;
     public static int FRONTPISTON = 3;
 
