@@ -2,7 +2,7 @@
 <dashboard>
 	<widget field="grabPos" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
 		<location x="81" y="5"/>
-		<width>372</width>
+		<width>449</width>
 		<property name="Maximum" value="0.0"/>
 		<property name="Minimum" value="-860.0"/>
 	</widget>
@@ -10,34 +10,28 @@
 		<location x="252" y="1"/>
 	</widget>
 	<widget field="rightEndstop" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="468" y="18"/>
+		<location x="539" y="20"/>
 	</widget>
 	<widget field="VisionCenter" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
-		<location x="4" y="427"/>
+		<location x="680" y="489"/>
 		<width>538</width>
 		<property name="Maximum" value="320.0"/>
 	</widget>
 	<widget field="frontPiston" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="545" y="92"/>
+		<location x="681" y="86"/>
 	</widget>
 	<widget field="leftEndstop" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="6" y="16"/>
 	</widget>
 	<widget field="backPiston" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="547" y="112"/>
+		<location x="681" y="111"/>
 	</widget>
 	<widget field="bottomEndstop" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="548" y="56"/>
+		<location x="681" y="64"/>
 	</widget>
 	<widget field="topEndstop" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="548" y="37"/>
+		<location x="680" y="47"/>
 	</widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="645" y="42"/>
-		<width>567</width>
-		<height>407</height>
-		<property name="Camera Choice" value=""/>
-	</static-widget>
 	<widget field="driveDir" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="650" y="15"/>
 	</widget>
@@ -47,74 +41,20 @@
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
 		<location x="3" y="36"/>
-		<width>539</width>
-		<height>401</height>
-		<property name="Camera Choice" value="Front"/>
+		<width>622</width>
+		<height>488</height>
+		<property name="Camera Choice" value="USB Camera 0"/>
 	</static-widget>
-	<widget field="Auto choices" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="544" y="375"/>
-	</widget>
 </dashboard>
 <live-window>
-	<widget field="BallIntake" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
-		<location x="0" y="69"/>
-	</widget>
-	<widget field="ArcadeDrive" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
-		<location x="0" y="46"/>
-	</widget>
-	<widget field="HatchGrabber" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
-		<location x="0" y="23"/>
-	</widget>
-	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
-		<widget field="Solenoid[0,3]" type="Solenoid" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalOutputController">
-			<location x="46" y="16"/>
-			<height>23</height>
-			<width>123</width>
-		</widget>
-		<widget field="DigitalInput[5]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
-			<location x="6" y="39"/>
-			<height>20</height>
-			<width>203</width>
-		</widget>
-		<widget field="Solenoid[0,0]" type="Solenoid" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalOutputController">
-			<location x="46" y="59"/>
-			<height>23</height>
-			<width>123</width>
-		</widget>
-		<widget field="Solenoid[0,2]" type="Solenoid" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalOutputController">
-			<location x="46" y="82"/>
-			<height>23</height>
-			<width>123</width>
-		</widget>
-		<widget field="DigitalInput[7]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
-			<location x="6" y="105"/>
-			<height>20</height>
-			<width>203</width>
-		</widget>
-		<widget field="DigitalInput[6]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
-			<location x="6" y="125"/>
-			<height>20</height>
-			<width>203</width>
-		</widget>
-		<widget field="Solenoid[0,1]" type="Solenoid" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalOutputController">
-			<location x="46" y="145"/>
-			<height>23</height>
-			<width>123</width>
-		</widget>
-		<widget field="DigitalInput[4]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
-			<location x="6" y="168"/>
-			<height>20</height>
-			<width>203</width>
-		</widget>
-		<widget field="Encoder[0]" type="Quadrature Encoder" class="edu.wpi.first.smartdashboard.livewindow.elements.EncoderDisplay">
-			<location x="6" y="188"/>
-			<height>97</height>
-			<width>203</width>
-		</widget>
-		<location x="0" y="0"/>
-		<width>215</width>
-		<height>291</height>
-	</widget>
 </live-window>
+	<hidden field="Auto selector"/>
+	<hidden field="LeftRawSpeed"/>
+	<hidden field="BotLim"/>
+	<hidden field="HeisPos"/>
 	<hidden field="Exposure"/>
+	<hidden field="RightSpeed"/>
+	<hidden field="LeftSpeed"/>
+	<hidden field="TopLim"/>
+	<hidden field="RightRawSpeed"/>
 </xml>

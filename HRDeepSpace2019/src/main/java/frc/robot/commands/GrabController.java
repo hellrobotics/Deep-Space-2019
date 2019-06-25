@@ -56,12 +56,12 @@ public class GrabController extends Command {
       }
     } else {
 
-    if (oi.stick.getRawButton(1) == true) {
+    if (oi.stick.getRawButton(1) == true || oi.stick2.getRawButton(6)) {
       ssGrab.SetGrab(true);
     } else {
       ssGrab.SetGrab(false);
     }
-    if (oi.stick.getRawButton(2) == true) {
+    if (oi.stick.getRawButton(2)||oi.stick2.getRawButton(5)) {
       ssGrab.SetExtend(true);
     } else {
       ssGrab.SetExtend(false);
@@ -72,23 +72,22 @@ public class GrabController extends Command {
     } else if (oi.stick.getPOV() == 270) {
       ssGrab.MoveGrabber(-1.0);
     } else {
-      ssGrab.MoveGrabber(0);
+      ssGrab.MoveGrabber(oi.stick2.getX());
     }
-
-    if (oi.stick.getRawButtonPressed(11)){
+/*
+    if (oi.stick.getRawButtonPressed(11) || oi.stick2.getRawButtonPressed(2)){
         isTracking = !isTracking;
     }
-
+*/
     if (isTracking) {
       if (Robot.visionError != 0) {
         ssGrab.AutoMoveGrabber(Robot.visionError, 20.0);
       } else {
         ssGrab.MoveGrabber(0);
-        //System.out.println("PUL MÆ!!!");
       }
     }
 
-    if (oi.stick.getRawButton(12)) {
+    if (oi.stick.getRawButton(12) || oi.stick2.getRawButton(1)) {
       ssGrab.AutoMoveGrabber(centerPos, 50, true);
       //System.out.println("ENCODER: " + ssGrab.getEncoderPos());
     }

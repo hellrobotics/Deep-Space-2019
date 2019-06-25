@@ -33,13 +33,14 @@ double driveDir = 1;
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    ssDrive.Arcade(oi.stick.getRawAxis(0)*-1*speedlimit, oi.stick.getRawAxis(1)*-1*speedlimit*driveDir);
-  if(oi.stick.getRawButton(9)){
-    speedlimit = 0.6;
+    ssDrive.Arcade(oi.stick.getRawAxis(0)*-1*speedlimit, oi.stick.getRawAxis(1)*-1*driveDir*speedlimit);
 
-  } else{
-speedlimit = 1;
-  }
+    if(oi.stick.getRawButton(10)){
+      speedlimit = 0.6;
+    } else{
+      speedlimit = 1;
+    }
+  
 if(oi.stick.getRawAxis(3)<0){
 driveDir = 1;
 SmartDashboard.putString("driveDir", "Forwards");

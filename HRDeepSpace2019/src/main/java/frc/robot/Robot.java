@@ -48,14 +48,14 @@ public class Robot extends TimedRobot {
 
   private final Joystick m_stick = new Joystick(0);
 
-  private static final int IMG_WIDTH = 320;
-  private static final int IMG_HEIGHT = 200;
+  private static final int IMG_WIDTH = 160;
+  private static final int IMG_HEIGHT = 140;
   
 	private int IMG_EXPOSURE = 30;
 	private VisionThread visionThread;
   private double centerX = 0.0;
   private final Object imgLock = new Object();
-  //private  UsbCamera camera;
+  private  UsbCamera camera;
 
   Command gControl = new GrabController();
   Command arcadeRun = new DriveController();
@@ -75,10 +75,17 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
     SmartDashboard.putNumber("Exposure", IMG_EXPOSURE);
 
+    
     NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
     NetworkTable table = ntinst.getTable("visionTable");
     centerXEntry = table.getEntry("centerX");
+ 
     
+    camera = CameraServer.getInstance().startAutomaticCapture();
+    camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+    camera.setFPS(30);
+
+
     /*
     visionThread = new VisionThread(camera, new VisionTracking(), pipeline -> {
         if (!pipeline.convexHullsOutput().isEmpty()) {
@@ -176,6 +183,10 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+    
+    gControl.start();
+    intakeControl.start();
+    arcadeRun.start();
 
     switch (m_autoSelected) {
       case kCustomAuto:

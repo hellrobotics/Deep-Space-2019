@@ -15,7 +15,8 @@ public class IntakeController extends Command {
 
   private BallIntake ssIntake;
   private OI oi;
-  
+  double speedlimit = 1;
+
   public IntakeController() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -36,9 +37,9 @@ public class IntakeController extends Command {
     if (oi.stick != null){
 
     if (oi.stick.getPOV() == 0 || oi.stick.getRawButton(5)) {
-      ssIntake.RunTransport(1);
+      ssIntake.RunTransport(1*speedlimit);
     } else if (oi.stick.getPOV() == 180) {
-      ssIntake.RunTransport(-1);
+      ssIntake.RunTransport(-1*speedlimit);
     } else {
       ssIntake.RunTransport(0);
     }
@@ -51,15 +52,23 @@ public class IntakeController extends Command {
       ssIntake.RunIntake(0);
     }
     if (oi.stick.getRawButton(6)) {
-      ssIntake.RaiseIntake(0.6);
+      ssIntake.RaiseIntake(1);
     } else if (oi.stick.getRawButton(4)) {
-      ssIntake.RaiseIntake(-0.15);
+      ssIntake.RaiseIntake(-0.35);
     } else {
       ssIntake.RaiseIntake(0);
-}
+    }
+    /*
     if (oi.stick.getRawButton(10)) {
       ssIntake.RaiseIntake(-0.35);
+    }*/
+
+    if(oi.stick.getRawButton(9)){
+      speedlimit = 0.6;
+    } else{
+      speedlimit = 1;
     }
+
   }
   }
   // Make this return true when this Command no longer needs to run execute()
