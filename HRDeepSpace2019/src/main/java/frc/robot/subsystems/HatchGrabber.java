@@ -55,6 +55,7 @@ public class HatchGrabber extends Subsystem {
       translateMotor.set(power);
     }
   }
+  
 
   public void AutoMoveGrabber (double pos, double tolerance, boolean encoded) {
     double error = 0;

@@ -1,60 +1,31 @@
 <xml version="1.0">
 <dashboard>
-	<widget field="grabPos" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
-		<location x="81" y="5"/>
-		<width>449</width>
-		<property name="Maximum" value="0.0"/>
-		<property name="Minimum" value="-860.0"/>
+	<widget field="Blue" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="183" y="27"/>
+		<width>191</width>
+		<height>138</height>
 	</widget>
-	<widget field="tracking" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="252" y="1"/>
+	<widget field="Red" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="550" y="16"/>
+		<width>198</width>
+		<height>150</height>
 	</widget>
-	<widget field="rightEndstop" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="539" y="20"/>
+	<widget field="Green" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="381" y="20"/>
+		<width>169</width>
+		<height>143</height>
 	</widget>
-	<widget field="VisionCenter" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.ProgressBar">
-		<location x="680" y="489"/>
-		<width>538</width>
-		<property name="Maximum" value="320.0"/>
-	</widget>
-	<widget field="frontPiston" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="681" y="86"/>
-	</widget>
-	<widget field="leftEndstop" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="6" y="16"/>
-	</widget>
-	<widget field="backPiston" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="681" y="111"/>
-	</widget>
-	<widget field="bottomEndstop" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="681" y="64"/>
-	</widget>
-	<widget field="topEndstop" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="680" y="47"/>
-	</widget>
-	<widget field="driveDir" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="650" y="15"/>
-	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
+		<location x="0" y="0"/>
+	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
 		<location x="1321" y="6"/>
 		<property name="Graphics" value="Rounded"/>
 	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="3" y="36"/>
-		<width>622</width>
-		<height>488</height>
-		<property name="Camera Choice" value="USB Camera 0"/>
-	</static-widget>
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="Auto selector"/>
-	<hidden field="LeftRawSpeed"/>
-	<hidden field="BotLim"/>
-	<hidden field="HeisPos"/>
-	<hidden field="Exposure"/>
-	<hidden field="RightSpeed"/>
-	<hidden field="LeftSpeed"/>
-	<hidden field="TopLim"/>
-	<hidden field="RightRawSpeed"/>
+	<hidden field="Proximity"/>
+	<hidden field="Auto mode"/>
+	<hidden field="IR"/>
 </xml>

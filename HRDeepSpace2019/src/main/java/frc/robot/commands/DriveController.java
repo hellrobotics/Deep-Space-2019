@@ -33,7 +33,7 @@ double driveDir = 1;
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    ssDrive.Arcade(oi.stick.getRawAxis(0)*-1*speedlimit, oi.stick.getRawAxis(1)*-1*driveDir*speedlimit);
+    ssDrive.Arcade(oi.stick.getRawAxis(0)*speedlimit*(oi.stick.getRawAxis(3)*driveDir), oi.stick.getRawAxis(1)*-1*(oi.stick.getRawAxis(3))*speedlimit);
 
     if(oi.stick.getRawButton(10)){
       speedlimit = 0.6;

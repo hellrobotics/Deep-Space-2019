@@ -46,6 +46,8 @@ public class GrabController extends Command {
     int pos = ssGrab.getEncoderPos();
     SmartDashboard.putNumber("grabPos", pos*-1);
     SmartDashboard.putBoolean("tracking", isTracking); 
+    SmartDashboard.putBoolean("Is Calibrated", isCalibrated);
+
     //System.out.println(stage1Pos);
 
     if (isCalibrated == false) {
@@ -54,7 +56,11 @@ public class GrabController extends Command {
       if (!ssGrab.getRightEndstop()) {
         isCalibrated = true;
       }
-    } else {
+    }
+    if (oi.stick.getRawButton(10)) {
+      isCalibrated = false;
+    }
+    
 
     if (oi.stick.getRawButton(1) == true || oi.stick2.getRawButton(6)) {
       ssGrab.SetGrab(true);
@@ -93,7 +99,7 @@ public class GrabController extends Command {
     }
   }
 
-  }
+  
 
   
 
